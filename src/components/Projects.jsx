@@ -1,9 +1,6 @@
 import { motion } from 'framer-motion';
-import { useState } from 'react';
 
 export default function Projects() {
-  const [hoveredProject, setHoveredProject] = useState(null);
-
   const projects = [
     {
       id: 1,
@@ -113,8 +110,6 @@ export default function Projects() {
             <motion.div
               key={project.id}
               variants={item}
-              onMouseEnter={() => setHoveredProject(project.id)}
-              onMouseLeave={() => setHoveredProject(null)}
               className="group relative"
             >
               <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-accent-blue/15 to-accent-purple/15 opacity-0 group-hover:opacity-100 blur-xl transition-all duration-500 -z-10" />

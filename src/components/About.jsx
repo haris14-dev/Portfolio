@@ -77,10 +77,6 @@ export default function About() {
                   value: 'ML, DL, Computer Vision',
                 },
                 {
-                  label: 'Experience',
-                  value: '5+ years in production ML',
-                },
-                {
                   label: 'Approach',
                   value: 'Data-driven, Business-focused',
                 },

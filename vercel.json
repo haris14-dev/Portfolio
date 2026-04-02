@@ -1,0 +1,9 @@
+{
+  "buildCommand": "npm run build",
+  "outputDirectory": "build",
+  "env": {
+    "NODE_ENV": "production"
+  },
+  "framework": "create-react-app",
+  "regions": ["iad1"]
+}

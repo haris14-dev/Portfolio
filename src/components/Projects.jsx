@@ -1,6 +1,21 @@
 import { motion } from 'framer-motion';
+import ProjectCard from './ProjectCard';
 
 export default function Projects() {
+  // Featured project with media assets
+  const featuredProject = {
+    title: 'AI-Powered Movie Recommendation Engine',
+    description: 'Advanced collaborative filtering system that analyzes user preferences and movie metadata to deliver highly personalized recommendations with 92% accuracy.',
+    video: '/projects/movie-recommender/demo.mp4',
+    images: [
+      '/projects/movie-recommender/ss1.png',
+      '/projects/movie-recommender/ss2.png',
+    ],
+    tech: ['Collaborative Filtering', 'Scikit-learn', 'Python', 'React', 'Data Analysis'],
+    github: 'https://github.com/haris14-dev',
+    demo: null,
+  };
+
   const projects = [
     {
       id: 1,
@@ -96,6 +111,36 @@ export default function Projects() {
             A selection of AI and ML projects that have delivered real business impact and solved complex technical challenges.
           </p>
           <div className="w-20 h-1 bg-gradient-to-r from-accent-blue to-accent-purple mx-auto mt-6" />
+        </motion.div>
+
+        {/* Featured Project */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true }}
+          className="mb-16"
+        >
+          <div className="mb-6">
+            <p className="text-accent-blue font-semibold mb-1 text-sm">FEATURED PROJECT</p>
+            <h3 className="text-2xl font-bold text-white">Latest Addition</h3>
+          </div>
+          <div className="max-w-3xl">
+            <ProjectCard {...featuredProject} />
+          </div>
+        </motion.div>
+
+        <div className="w-full h-px bg-gradient-to-r from-transparent via-gray-700 to-transparent my-12" />
+
+        {/* Other Projects Section Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true }}
+          className="mb-10"
+        >
+          <h3 className="text-2xl font-bold text-white">More Projects</h3>
         </motion.div>
 
         {/* Projects Grid */}

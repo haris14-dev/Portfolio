@@ -3,7 +3,6 @@ import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import About from './components/About';
 import Skills from './components/Skills';
-import ScrollShowcase from './components/ScrollShowcase';
 import Projects from './components/Projects';
 import Services from './components/Services';
 import Contact from './components/Contact';
@@ -24,9 +23,6 @@ function App() {
 
       {/* Skills Section */}
       <Skills />
-
-      {/* Scroll Showcase - Interactive velocity-based gallery */}
-      <ScrollShowcase />
 
       {/* Services Section */}
       <Services />

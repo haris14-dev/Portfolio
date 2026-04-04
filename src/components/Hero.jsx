@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { ArrowRight, Code2, Zap } from 'lucide-react';
+import { Meteors } from '../registry/magicui/meteors';
 
 export default function Hero() {
   const container = {
@@ -17,6 +18,11 @@ export default function Hero() {
 
   return (
     <section id="home" className="min-h-screen relative overflow-hidden pt-20 md:pt-0 flex items-center justify-center">
+      {/* Meteors background effect */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <Meteors number={30} />
+      </div>
+
       {/* Background gradient effects */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-20 right-10 w-72 h-72 bg-accent-blue/20 rounded-full blur-3xl opacity-20" />

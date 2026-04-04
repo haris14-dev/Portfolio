@@ -14,11 +14,6 @@ export default function ProjectDetailsModal({
   onClose,
 }) {
   const [selectedImageIndex, setSelectedImageIndex] = useState(null);
-  const [loadedImages, setLoadedImages] = useState(new Set());
-
-  const handleImageLoad = (idx) => {
-    setLoadedImages((prev) => new Set([...prev, idx]));
-  };
 
   useEffect(() => {
     // Prevent scroll when modal is open
@@ -111,7 +106,7 @@ export default function ProjectDetailsModal({
               {description}
             </p>
 
-            {/* Screenshots Grid with Lazy Loading */}
+            {/* Screenshots Grid - Eager Loading */}
             {images.length > 0 && (
               <div className="mb-8">
                 <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-4">
@@ -128,18 +123,11 @@ export default function ProjectDetailsModal({
                       onClick={() => setSelectedImageIndex(idx)}
                       className="relative rounded-lg overflow-hidden border border-gray-700/50 hover:border-accent-blue/50 transition-colors cursor-pointer"
                     >
-                      {/* Skeleton Loading */}
-                      {!loadedImages.has(idx) && (
-                        <div className="absolute inset-0 bg-gradient-to-r from-gray-700 via-gray-600 to-gray-700 animate-pulse" />
-                      )}
-                      
-                      {/* Lazy Loaded Image */}
+                      {/* Eager Loaded Image */}
                       <img
-                        loading="lazy"
                         src={img}
                         alt={`${title} screenshot ${idx + 1}`}
                         className="w-full h-32 sm:h-40 object-cover hover:brightness-110 transition-all"
-                        onLoad={() => handleImageLoad(idx)}
                       />
                     </motion.div>
                   ))}
@@ -233,21 +221,14 @@ export default function ProjectDetailsModal({
                 <X size={24} />
               </motion.button>
 
-              {/* Skeleton Loading */}
-              {!loadedImages.has(selectedImageIndex) && (
-                <div className="absolute inset-0 bg-gradient-to-r from-gray-700 via-gray-600 to-gray-700 animate-pulse rounded-lg" />
-              )}
-
-              {/* Image with Lazy Loading */}
+              {/* Eagerly Loaded Full-Size Image */}
               <motion.img
                 initial={{ opacity: 0 }}
-                animate={{ opacity: loadedImages.has(selectedImageIndex) ? 1 : 0 }}
+                animate={{ opacity: 1 }}
                 transition={{ duration: 0.3 }}
-                loading="lazy"
                 src={images[selectedImageIndex]}
                 alt={`Screenshot ${selectedImageIndex + 1}`}
                 className="w-full rounded-lg shadow-2xl"
-                onLoad={() => handleImageLoad(selectedImageIndex)}
               />
 
               {/* Navigation Arrows */}

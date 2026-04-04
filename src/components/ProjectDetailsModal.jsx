@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, ExternalLink, Github } from 'lucide-react';
+import { X, ExternalLink, Github, ChevronLeft, ChevronRight } from 'lucide-react';
 
 export default function ProjectDetailsModal({
   title,
@@ -9,9 +9,12 @@ export default function ProjectDetailsModal({
   images = [],
   tech = [],
   github = null,
+  opensourced = true,
   demo = null,
   onClose,
 }) {
+  const [selectedImageIndex, setSelectedImageIndex] = useState(null);
+
   useEffect(() => {
     // Prevent scroll when modal is open
     document.body.style.overflow = 'hidden';
@@ -19,6 +22,14 @@ export default function ProjectDetailsModal({
       document.body.style.overflow = 'unset';
     };
   }, []);
+
+  const handlePrevImage = () => {
+    setSelectedImageIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
+  };
+
+  const handleNextImage = () => {
+    setSelectedImageIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
+  };
 
   const backdropVariants = {
     hidden: { opacity: 0 },
@@ -109,6 +120,7 @@ export default function ProjectDetailsModal({
                       animate={{ opacity: 1, scale: 1 }}
                       transition={{ delay: idx * 0.1 }}
                       whileHover={{ scale: 1.05 }}
+                      onClick={() => setSelectedImageIndex(idx)}
                       className="relative rounded-lg overflow-hidden border border-gray-700/50 hover:border-accent-blue/50 transition-colors cursor-pointer"
                     >
                       <img
@@ -171,10 +183,81 @@ export default function ProjectDetailsModal({
                   GitHub
                 </motion.a>
               )}
+              {!opensourced && (
+                <div className="flex-1 flex items-center justify-center gap-2 px-6 py-3 rounded-lg border border-gray-600 text-gray-400 font-semibold bg-gray-900/50">
+                  Not Open Sourced Yet
+                </div>
+              )}
             </div>
           </div>
         </motion.div>
       </div>
+
+      {/* Lightbox Modal for Screenshots */}
+      <AnimatePresence>
+        {selectedImageIndex !== null && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setSelectedImageIndex(null)}
+            className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm"
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.9 }}
+              onClick={(e) => e.stopPropagation()}
+              className="relative max-w-4xl w-full"
+            >
+              {/* Close Button */}
+              <motion.button
+                onClick={() => setSelectedImageIndex(null)}
+                whileHover={{ scale: 1.1, rotate: 90 }}
+                whileTap={{ scale: 0.95 }}
+                className="absolute -top-12 right-0 z-10 p-2 rounded-lg bg-accent-blue hover:bg-accent-blue/80 text-white transition-colors"
+              >
+                <X size={24} />
+              </motion.button>
+
+              {/* Image */}
+              <img
+                src={images[selectedImageIndex]}
+                alt={`Screenshot ${selectedImageIndex + 1}`}
+                className="w-full rounded-lg shadow-2xl"
+              />
+
+              {/* Navigation Arrows */}
+              {images.length > 1 && (
+                <>
+                  <motion.button
+                    onClick={handlePrevImage}
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-16 p-3 rounded-lg bg-accent-blue hover:bg-accent-blue/80 text-white transition-colors"
+                  >
+                    <ChevronLeft size={24} />
+                  </motion.button>
+
+                  <motion.button
+                    onClick={handleNextImage}
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-16 p-3 rounded-lg bg-accent-blue hover:bg-accent-blue/80 text-white transition-colors"
+                  >
+                    <ChevronRight size={24} />
+                  </motion.button>
+
+                  {/* Image Counter */}
+                  <div className="absolute -bottom-12 left-1/2 -translate-x-1/2 text-gray-300 text-sm font-semibold">
+                    {selectedImageIndex + 1} / {images.length}
+                  </div>
+                </>
+              )}
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </AnimatePresence>
   );
 }

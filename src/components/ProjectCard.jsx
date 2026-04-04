@@ -9,6 +9,7 @@ export default function ProjectCard({
   images = [],
   tech = [],
   github = null,
+  opensourced = true,
   demo = null,
 }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -86,6 +87,7 @@ export default function ProjectCard({
           images={images}
           tech={tech}
           github={github}
+          opensourced={opensourced}
           demo={demo}
           onClose={() => setIsModalOpen(false)}
         />

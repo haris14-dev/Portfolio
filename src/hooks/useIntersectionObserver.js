@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { motion } from 'framer-motion';
 
 /**
  * PERFORMANCE: Custom hook for Intersection Observer

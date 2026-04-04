@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState} from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ExternalLink, Github, ChevronLeft, ChevronRight } from 'lucide-react';
 
@@ -14,6 +14,11 @@ export default function ProjectDetailsModal({
   onClose,
 }) {
   const [selectedImageIndex, setSelectedImageIndex] = useState(null);
+  const [loadedImages, setLoadedImages] = useState(new Set());
+
+  const handleImageLoad = (idx) => {
+    setLoadedImages((prev) => new Set([...prev, idx]));
+  };
 
   useEffect(() => {
     // Prevent scroll when modal is open
@@ -80,15 +85,15 @@ export default function ProjectDetailsModal({
           </motion.button>
 
           <div className="p-6 sm:p-8">
-            {/* Video - Larger */}
+            {/* Video - Larger with Optimized Loading */}
             {video && (
               <div className="relative w-full mb-6 rounded-xl overflow-hidden bg-black">
                 <div className="aspect-video">
                   <video
-                    autoPlay
                     loop
                     muted
                     playsInline
+                    autoPlay
                     preload="metadata"
                     className="w-full h-full object-cover"
                   >
@@ -106,7 +111,7 @@ export default function ProjectDetailsModal({
               {description}
             </p>
 
-            {/* Screenshots Grid */}
+            {/* Screenshots Grid with Lazy Loading */}
             {images.length > 0 && (
               <div className="mb-8">
                 <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-4">
@@ -123,10 +128,18 @@ export default function ProjectDetailsModal({
                       onClick={() => setSelectedImageIndex(idx)}
                       className="relative rounded-lg overflow-hidden border border-gray-700/50 hover:border-accent-blue/50 transition-colors cursor-pointer"
                     >
+                      {/* Skeleton Loading */}
+                      {!loadedImages.has(idx) && (
+                        <div className="absolute inset-0 bg-gradient-to-r from-gray-700 via-gray-600 to-gray-700 animate-pulse" />
+                      )}
+                      
+                      {/* Lazy Loaded Image */}
                       <img
+                        loading="lazy"
                         src={img}
                         alt={`${title} screenshot ${idx + 1}`}
                         className="w-full h-32 sm:h-40 object-cover hover:brightness-110 transition-all"
+                        onLoad={() => handleImageLoad(idx)}
                       />
                     </motion.div>
                   ))}
@@ -220,11 +233,21 @@ export default function ProjectDetailsModal({
                 <X size={24} />
               </motion.button>
 
-              {/* Image */}
-              <img
+              {/* Skeleton Loading */}
+              {!loadedImages.has(selectedImageIndex) && (
+                <div className="absolute inset-0 bg-gradient-to-r from-gray-700 via-gray-600 to-gray-700 animate-pulse rounded-lg" />
+              )}
+
+              {/* Image with Lazy Loading */}
+              <motion.img
+                initial={{ opacity: 0 }}
+                animate={{ opacity: loadedImages.has(selectedImageIndex) ? 1 : 0 }}
+                transition={{ duration: 0.3 }}
+                loading="lazy"
                 src={images[selectedImageIndex]}
                 alt={`Screenshot ${selectedImageIndex + 1}`}
                 className="w-full rounded-lg shadow-2xl"
+                onLoad={() => handleImageLoad(selectedImageIndex)}
               />
 
               {/* Navigation Arrows */}

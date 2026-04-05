@@ -59,7 +59,7 @@ export default function ProjectDetailsModal({
       window.removeEventListener('keydown', handleEscKey);
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [selectedImageIndex, onClose]);
+  }, [selectedImageIndex, onClose, handleNextImage, handlePrevImage]);
 
   const handlePrevImage = () => {
     setSelectedImageIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));

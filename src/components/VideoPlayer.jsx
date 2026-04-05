@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect } from 'react';
 
 /**
  * OPTIMIZED VideoPlayer Component
@@ -22,7 +22,6 @@ export default function VideoPlayer({
   onPlay = null,
 }) {
   const videoRef = useRef(null);
-  const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
     const video = videoRef.current;
@@ -41,7 +40,6 @@ export default function VideoPlayer({
   }, [autoPlay]);
 
   const handleLoadedMetadata = () => {
-    setIsReady(true);
     onLoadedMetadata?.();
   };
 

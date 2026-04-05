@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { ArrowRight, Code2, Zap } from 'lucide-react';
+import { ArrowRight, Zap } from 'lucide-react';
 import { Meteors } from '../registry/magicui/meteors';
 
 export default function Hero() {

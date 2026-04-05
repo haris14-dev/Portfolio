@@ -1,7 +1,21 @@
-import React, { useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ExternalLink, Github, ChevronLeft, ChevronRight } from 'lucide-react';
+import VideoPlayer from './VideoPlayer';
+import TechStack from './TechStack';
 
+/**
+ * OPTIMIZED ProjectDetailsModal Component
+ * 
+ * PERFORMANCE FEATURES:
+ * ✅ Video loads ONLY when modal opens (lazy loading)
+ * ✅ ESC key support for closing
+ * ✅ Click outside modal to close
+ * ✅ Lazy loading for screenshot images
+ * ✅ Optimized animations with Framer Motion
+ * ✅ Responsive design for all devices
+ * ✅ Professional dark theme
+ */
 export default function ProjectDetailsModal({
   title,
   description,
@@ -15,13 +29,37 @@ export default function ProjectDetailsModal({
 }) {
   const [selectedImageIndex, setSelectedImageIndex] = useState(null);
 
+  // PERFORMANCE: Prevent body scroll when modal is open
   useEffect(() => {
-    // Prevent scroll when modal is open
     document.body.style.overflow = 'hidden';
+    
+    // Handle ESC key to close modal
+    const handleEscKey = (e) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+    
+    // Handle keyboard navigation in lightbox
+    const handleKeyDown = (e) => {
+      if (selectedImageIndex !== null) {
+        if (e.key === 'ArrowLeft') {
+          handlePrevImage();
+        } else if (e.key === 'ArrowRight') {
+          handleNextImage();
+        }
+      }
+    };
+
+    window.addEventListener('keydown', handleEscKey);
+    window.addEventListener('keydown', handleKeyDown);
+    
     return () => {
       document.body.style.overflow = 'unset';
+      window.removeEventListener('keydown', handleEscKey);
+      window.removeEventListener('keydown', handleKeyDown);
     };
-  }, []);
+  }, [selectedImageIndex, onClose]);
 
   const handlePrevImage = () => {
     setSelectedImageIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
@@ -30,6 +68,17 @@ export default function ProjectDetailsModal({
   const handleNextImage = () => {
     setSelectedImageIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
   };
+
+  // Close lightbox when pressing escape
+  useEffect(() => {
+    const handleEsc = (e) => {
+      if (e.key === 'Escape' && selectedImageIndex !== null) {
+        setSelectedImageIndex(null);
+      }
+    };
+    window.addEventListener('keydown', handleEsc);
+    return () => window.removeEventListener('keydown', handleEsc);
+  }, [selectedImageIndex]);
 
   const backdropVariants = {
     hidden: { opacity: 0 },
@@ -51,121 +100,140 @@ export default function ProjectDetailsModal({
   return (
     <AnimatePresence>
       <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-        {/* Backdrop */}
+        {/* Backdrop - Click outside to close */}
         <motion.div
           variants={backdropVariants}
           initial="hidden"
           animate="visible"
           exit="exit"
           onClick={onClose}
-          className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+          className="absolute inset-0 bg-black/70 backdrop-blur-md"
         />
 
-        {/* Modal */}
+        {/* Modal Container */}
         <motion.div
           variants={modalVariants}
           initial="hidden"
           animate="visible"
           exit="exit"
-          className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-2xl bg-dark-secondary/95 backdrop-blur border border-gray-700/50 shadow-2xl"
+          className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-2xl bg-gradient-to-br from-dark-secondary/95 to-dark-primary/80 backdrop-blur-xl border border-gray-700/40 shadow-2xl"
         >
-          {/* Close Button */}
+          {/* Close Button - Always visible */}
           <motion.button
             onClick={onClose}
-            whileHover={{ scale: 1.1, rotate: 90 }}
-            whileTap={{ scale: 0.95 }}
-            className="absolute top-4 right-4 z-10 p-2 rounded-lg bg-dark-primary/60 hover:bg-accent-blue/20 text-gray-300 hover:text-accent-blue transition-colors"
+            whileHover={{ scale: 1.15, rotate: 90 }}
+            whileTap={{ scale: 0.9 }}
+            className="sticky top-4 right-4 z-20 p-2.5 rounded-full bg-gradient-to-r from-accent-blue/30 to-accent-purple/30 border border-accent-blue/40 hover:from-accent-blue/50 hover:to-accent-purple/50 text-accent-blue hover:text-white transition-all duration-300 shadow-lg backdrop-blur-sm"
+            title="Close (ESC)"
           >
-            <X size={20} />
+            <X size={22} strokeWidth={2.5} />
           </motion.button>
 
-          <div className="p-6 sm:p-8">
-            {/* Video - Larger with Optimized Loading */}
+          <div className="p-6 sm:p-8 space-y-6">
+            {/* VIDEO SECTION - Lazy loaded */}
             {video && (
-              <div className="relative w-full mb-6 rounded-xl overflow-hidden bg-black">
-                <div className="aspect-video">
-                  <video
-                    loop
-                    muted
-                    playsInline
-                    autoPlay
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4 }}
+                className="relative w-full rounded-xl overflow-hidden bg-black shadow-lg"
+              >
+                <div className="aspect-video relative bg-gradient-to-br from-gray-800 to-black">
+                  {/* Video Player - Only renders when modal is open */}
+                  <VideoPlayer
+                    src={video}
+                    autoPlay={true}
+                    muted={true}
+                    loop={true}
                     preload="metadata"
-                    className="w-full h-full object-cover"
-                  >
-                    <source src={video} type="video/mp4" />
-                  </video>
+                  />
                 </div>
-              </div>
+              </motion.div>
             )}
+            {/* TITLE SECTION */}
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: 0.1 }}
+            >
+              <h2 className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-white via-accent-blue to-accent-purple bg-clip-text text-transparent">
+                {title}
+              </h2>
+            </motion.div>
 
-            {/* Title */}
-            <h2 className="text-3xl font-bold text-white mb-4">{title}</h2>
-
-            {/* Description */}
-            <p className="text-gray-300 text-base leading-relaxed mb-6">
+            {/* DESCRIPTION SECTION */}
+            <motion.p
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: 0.15 }}
+              className="text-gray-300 text-base leading-relaxed"
+            >
               {description}
-            </p>
+            </motion.p>
 
-            {/* Screenshots Grid - Eager Loading */}
+            {/* SCREENSHOTS SECTION */}
             {images.length > 0 && (
-              <div className="mb-8">
-                <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-4">
-                  Screenshots
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: 0.2 }}
+              >
+                <h3 className="text-sm font-bold text-transparent bg-gradient-to-r from-accent-blue to-accent-purple bg-clip-text uppercase tracking-widest mb-4">
+                  📸 Screenshots
                 </h3>
                 <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
                   {images.map((img, idx) => (
                     <motion.div
                       key={idx}
-                      initial={{ opacity: 0, scale: 0.9 }}
+                      initial={{ opacity: 0, scale: 0.8 }}
                       animate={{ opacity: 1, scale: 1 }}
-                      transition={{ delay: idx * 0.1 }}
-                      whileHover={{ scale: 1.05 }}
+                      transition={{ delay: 0.1 + idx * 0.05 }}
+                      whileHover={{ scale: 1.08, y: -4 }}
                       onClick={() => setSelectedImageIndex(idx)}
-                      className="relative rounded-lg overflow-hidden border border-gray-700/50 hover:border-accent-blue/50 transition-colors cursor-pointer"
+                      className="relative rounded-lg overflow-hidden border border-gray-700/50 hover:border-accent-blue/60 transition-all duration-300 cursor-pointer group"
                     >
-                      {/* Eager Loaded Image */}
+                      {/* Lazy Load Image */}
                       <img
                         src={img}
                         alt={`${title} screenshot ${idx + 1}`}
-                        className="w-full h-32 sm:h-40 object-cover hover:brightness-110 transition-all"
+                        loading="lazy"
+                        className="w-full h-32 sm:h-40 object-cover group-hover:brightness-125 transition-all duration-300"
                       />
+                      {/* Hover overlay */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                     </motion.div>
                   ))}
                 </div>
-              </div>
+              </motion.div>
             )}
 
-            {/* Tech Stack */}
-            <div className="mb-8">
-              <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-4">
-                Tech Stack
+            {/* TECH STACK SECTION */}
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: 0.25 }}
+            >
+              <h3 className="text-sm font-bold text-transparent bg-gradient-to-r from-accent-blue to-accent-purple bg-clip-text uppercase tracking-widest mb-4">
+                🛠️ Tech Stack
               </h3>
-              <div className="flex flex-wrap gap-2">
-                {tech.map((tag, idx) => (
-                  <motion.span
-                    key={idx}
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: idx * 0.05 }}
-                    whileHover={{ scale: 1.05 }}
-                    className="px-4 py-2 rounded-full text-sm font-medium bg-gradient-to-r from-accent-blue/20 to-accent-purple/20 text-accent-blue border border-accent-blue/40 hover:border-accent-blue/60 transition-all"
-                  >
-                    {tag}
-                  </motion.span>
-                ))}
-              </div>
-            </div>
+              <TechStack tech={tech} variant="modal" gap="gap-2" />
+            </motion.div>
 
-            {/* Action Buttons */}
-            <div className="flex flex-col sm:flex-row gap-3 pt-6 border-t border-gray-700/50">
+            {/* ACTION BUTTONS SECTION */}
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: 0.3 }}
+              className="flex flex-col sm:flex-row gap-3 pt-6 border-t border-gray-700/40"
+            >
               {demo && (
                 <motion.a
                   href={demo}
                   target="_blank"
                   rel="noopener noreferrer"
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="flex-1 flex items-center justify-center gap-2 px-6 py-3 rounded-lg bg-gradient-to-r from-accent-blue to-accent-purple text-white font-semibold hover:shadow-lg transition-all"
+                  whileHover={{ scale: 1.05, y: -2 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="flex-1 flex items-center justify-center gap-2 px-6 py-3 rounded-lg bg-gradient-to-r from-accent-blue to-accent-purple text-white font-semibold text-sm hover:shadow-lg hover:shadow-accent-blue/30 transition-all duration-300"
                 >
                   <ExternalLink size={18} />
                   Live Demo
@@ -176,25 +244,25 @@ export default function ProjectDetailsModal({
                   href={github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="flex-1 flex items-center justify-center gap-2 px-6 py-3 rounded-lg border border-gray-600 text-gray-300 font-semibold hover:border-accent-blue/50 hover:text-accent-blue transition-all"
+                  whileHover={{ scale: 1.05, y: -2 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="flex-1 flex items-center justify-center gap-2 px-6 py-3 rounded-lg border-2 border-gray-600 text-gray-300 font-semibold text-sm hover:border-accent-blue/60 hover:text-accent-blue transition-all duration-300 hover:bg-accent-blue/5"
                 >
                   <Github size={18} />
                   GitHub
                 </motion.a>
               )}
               {!opensourced && (
-                <div className="flex-1 flex items-center justify-center gap-2 px-6 py-3 rounded-lg border border-gray-600 text-gray-400 font-semibold bg-gray-900/50">
-                  Not Open Sourced Yet
+                <div className="flex-1 flex items-center justify-center gap-2 px-6 py-3 rounded-lg border-2 border-gray-700 text-gray-400 font-semibold text-sm bg-gray-900/40">
+                  🔒 Not Open Sourced
                 </div>
               )}
-            </div>
+            </motion.div>
           </div>
         </motion.div>
       </div>
 
-      {/* Lightbox Modal for Screenshots */}
+      {/* LIGHTBOX MODAL FOR SCREENSHOTS */}
       <AnimatePresence>
         {selectedImageIndex !== null && (
           <motion.div
@@ -202,7 +270,7 @@ export default function ProjectDetailsModal({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setSelectedImageIndex(null)}
-            className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm"
+            className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/90 backdrop-blur-lg"
           >
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
@@ -214,21 +282,24 @@ export default function ProjectDetailsModal({
               {/* Close Button */}
               <motion.button
                 onClick={() => setSelectedImageIndex(null)}
-                whileHover={{ scale: 1.1, rotate: 90 }}
-                whileTap={{ scale: 0.95 }}
-                className="absolute -top-12 right-0 z-10 p-2 rounded-lg bg-accent-blue hover:bg-accent-blue/80 text-white transition-colors"
+                whileHover={{ scale: 1.15, rotate: 90 }}
+                whileTap={{ scale: 0.9 }}
+                className="absolute -top-16 right-0 z-10 p-2.5 rounded-full bg-gradient-to-r from-accent-blue to-accent-purple hover:shadow-lg text-white transition-all duration-300"
+                title="Close (ESC)"
               >
-                <X size={24} />
+                <X size={24} strokeWidth={2.5} />
               </motion.button>
 
-              {/* Eagerly Loaded Full-Size Image */}
+              {/* Full-Size Image */}
               <motion.img
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.9 }}
                 transition={{ duration: 0.3 }}
                 src={images[selectedImageIndex]}
                 alt={`Screenshot ${selectedImageIndex + 1}`}
-                className="w-full rounded-lg shadow-2xl"
+                loading="lazy"
+                className="w-full rounded-lg shadow-2xl border border-accent-blue/20"
               />
 
               {/* Navigation Arrows */}
@@ -236,24 +307,26 @@ export default function ProjectDetailsModal({
                 <>
                   <motion.button
                     onClick={handlePrevImage}
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-16 p-3 rounded-lg bg-accent-blue hover:bg-accent-blue/80 text-white transition-colors"
+                    whileHover={{ scale: 1.15, x: -4 }}
+                    whileTap={{ scale: 0.9 }}
+                    className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-20 p-3 rounded-full bg-gradient-to-r from-accent-blue to-accent-purple hover:shadow-lg text-white transition-all duration-300"
+                    title="Previous (←)"
                   >
-                    <ChevronLeft size={24} />
+                    <ChevronLeft size={28} strokeWidth={2.5} />
                   </motion.button>
 
                   <motion.button
                     onClick={handleNextImage}
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-16 p-3 rounded-lg bg-accent-blue hover:bg-accent-blue/80 text-white transition-colors"
+                    whileHover={{ scale: 1.15, x: 4 }}
+                    whileTap={{ scale: 0.9 }}
+                    className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-20 p-3 rounded-full bg-gradient-to-r from-accent-blue to-accent-purple hover:shadow-lg text-white transition-all duration-300"
+                    title="Next (→)"
                   >
-                    <ChevronRight size={24} />
+                    <ChevronRight size={28} strokeWidth={2.5} />
                   </motion.button>
 
                   {/* Image Counter */}
-                  <div className="absolute -bottom-12 left-1/2 -translate-x-1/2 text-gray-300 text-sm font-semibold">
+                  <div className="absolute -bottom-16 left-1/2 -translate-x-1/2 text-gray-300 text-sm font-bold tracking-wide">
                     {selectedImageIndex + 1} / {images.length}
                   </div>
                 </>

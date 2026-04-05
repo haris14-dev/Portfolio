@@ -46,29 +46,34 @@ export default function Hero() {
         {/* Main Headline */}
         <motion.h1
           variants={item}
-          className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight"
+          className="text-4xl md:text-6xl lg:text-7xl font-bold mb-4 leading-tight"
         >
-          I build <span className="bg-gradient-to-r from-accent-blue via-accent-purple to-accent-blue bg-clip-text text-transparent animate-pulse-glow">
-            AI-powered solutions
-          </span>{' '}
-          that solve real business problems
+          AI Engineer{' '}
+          <span className="bg-gradient-to-r from-accent-blue via-accent-purple to-accent-blue bg-clip-text text-transparent animate-pulse-glow">
+            Building Real-World ML Systems
+          </span>
         </motion.h1>
 
-        {/* Subtext */}
-        <motion.p variants={item} className="text-lg md:text-xl text-gray-400 mb-8 max-w-3xl mx-auto leading-relaxed">
-          Machine Learning & Deep Learning Engineer specializing in computer vision, predictive analytics,
-          and intelligent automation. I transform complex data into actionable insights and scalable systems.
-        </motion.p>
+        {/* Strong value proposition */}
+        <motion.div variants={item} className="mb-8 px-4 sm:px-0">
+          <p className="text-xl md:text-2xl font-semibold text-accent-blue mb-3">
+            I solve problems, not just write code.
+          </p>
+          <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
+            Specialized in building production ML systems, computer vision applications, and intelligent automation 
+            that deliver measurable business impact—from concept to deployment.
+          </p>
+        </motion.div>
 
         {/* CTA Buttons */}
-        <motion.div variants={item} className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
+        <motion.div variants={item} className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
           <motion.a
             href="#projects"
             whileHover={{ scale: 1.05, boxShadow: '0 30px 70px rgba(59, 130, 246, 0.4)' }}
             whileTap={{ scale: 0.95 }}
             className="px-10 py-4 rounded-lg bg-gradient-to-r from-accent-blue to-accent-purple text-white font-semibold flex items-center justify-center gap-2 hover:shadow-2xl transition-all group shadow-xl"
           >
-            View My Work
+            ✨ View Projects
             <motion.div
               className="inline-block"
               animate={{ x: [0, 5, 0] }}
@@ -80,26 +85,26 @@ export default function Hero() {
 
           <motion.a
             href="#contact"
-            whileHover={{ scale: 1.05, backgroundColor: 'rgba(59, 130, 246, 0.1)', borderColor: 'rgba(59, 130, 246, 0.6)' }}
+            whileHover={{ scale: 1.05, backgroundColor: 'rgba(139, 92, 246, 0.15)', borderColor: 'rgba(139, 92, 246, 0.8)' }}
             whileTap={{ scale: 0.95 }}
-            className="px-10 py-4 rounded-lg border-2 border-gray-500/50 text-white font-semibold hover:border-accent-blue hover:text-accent-blue transition-all duration-300 flex items-center justify-center gap-2"
+            className="px-10 py-4 rounded-lg border-2 border-accent-purple/40 text-white font-semibold hover:border-accent-purple/80 hover:text-accent-purple transition-all duration-300 flex items-center justify-center gap-2 hover:bg-accent-purple/5"
           >
-            <Code2 size={20} />
-            Let's talk
+            💼 Hire Me
           </motion.a>
         </motion.div>
 
-        {/* Stats */}
-        <motion.div variants={item} className="grid grid-cols-2 gap-8 max-w-2xl mx-auto">
+        {/* Stats - Trust Signals */}
+        <motion.div variants={item} className="grid grid-cols-3 gap-4 md:gap-8 max-w-3xl mx-auto mt-8">
           {[
-            { number: '10+', label: 'AI/ML Projects' },
-            { number: '24/7', label: 'Support Available' },
+            { number: '6+', label: 'ML Projects' },
+            { number: '94%+', label: 'Avg Accuracy' },
+            { number: '100%', label: 'Delivery' },
           ].map((stat, idx) => (
-            <div key={idx} className="text-center">
-              <p className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-accent-blue to-accent-purple bg-clip-text text-transparent">
+            <div key={idx} className="text-center p-4 rounded-lg bg-gradient-to-br from-dark-secondary/40 to-dark-tertiary/40 border border-accent-blue/10 hover:border-accent-blue/30 transition-all">
+              <p className="text-xl md:text-3xl font-bold bg-gradient-to-r from-accent-blue to-accent-purple bg-clip-text text-transparent">
                 {stat.number}
               </p>
-              <p className="text-xs md:text-sm text-gray-400 mt-1">{stat.label}</p>
+              <p className="text-xs md:text-sm text-gray-400 mt-2">{stat.label}</p>
             </div>
           ))}
         </motion.div>

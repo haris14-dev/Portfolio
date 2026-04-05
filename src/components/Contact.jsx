@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Mail, Linkedin, Github, Send } from 'lucide-react';
+import { Mail, Linkedin, Github, Send, MessageCircle } from 'lucide-react';
 import { useState } from 'react';
 
 export default function Contact() {
@@ -38,6 +38,13 @@ export default function Contact() {
 
   const socialLinks = [
     {
+      icon: MessageCircle,
+      label: 'WhatsApp',
+      href: 'https://wa.me/923412133616',
+      value: 'Message on WhatsApp',
+      cta: true,
+    },
+    {
       icon: Mail,
       label: 'Email',
       href: 'mailto:Harisasif761@gmail.com',
@@ -47,13 +54,13 @@ export default function Contact() {
       icon: Linkedin,
       label: 'LinkedIn',
       href: 'https://www.linkedin.com/in/haris-asif-4b314b375/',
-      value: 'LinkedIn',
+      value: 'Connect on LinkedIn',
     },
     {
       icon: Github,
       label: 'GitHub',
       href: 'https://github.com/haris14-dev',
-      value: 'GitHub',
+      value: 'View on GitHub',
     },
   ];
 
@@ -85,12 +92,12 @@ export default function Contact() {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <p className="text-accent-blue font-semibold mb-2">GET IN TOUCH</p>
+          <p className="text-accent-blue font-semibold mb-2">LET'S CONNECT</p>
           <h2 className="text-4xl md:text-5xl font-bold mb-4">
-            Let's build something great
+            Ready to build something impactful?
           </h2>
-          <p className="text-gray-400 max-w-2xl mx-auto">
-            Have a question or ready to start a project? I'd love to hear from you. Reach out and let's discuss how I can help.
+          <p className="text-gray-300 max-w-2xl mx-auto text-lg">
+            Whether you have a project to discuss, want to explore collaboration opportunities, or have a question—I'm here to help. Reach out instantly through your preferred channel.
           </p>
           <div className="w-20 h-1 bg-gradient-to-r from-accent-blue to-accent-purple mx-auto mt-6" />
         </motion.div>
@@ -105,15 +112,16 @@ export default function Contact() {
             className="space-y-8"
           >
             <motion.div variants={item}>
-              <h3 className="text-2xl font-bold text-white mb-6">Contact Information</h3>
+              <h3 className="text-2xl font-bold text-white mb-6">Get In Touch</h3>
               <p className="text-gray-300 mb-8">
-                Feel free to reach out through any of these channels. I typically respond within 24 hours.
+                Choose your preferred way to connect. I'm available for consultations, project discussions, and collaboration opportunities.
               </p>
             </motion.div>
 
             {/* Social Links */}
             {socialLinks.map((social, idx) => {
               const Icon = social.icon;
+              const isWhatsApp = social.label === 'WhatsApp';
               return (
                 <motion.a
                   key={idx}
@@ -121,11 +129,19 @@ export default function Contact() {
                   href={social.href}
                   target={social.href.startsWith('http') ? '_blank' : undefined}
                   rel={social.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                  whileHover={{ x: 12, boxShadow: '0 20px 50px rgba(59, 130, 246, 0.2)' }}
-                  className="flex items-center gap-4 p-6 rounded-2xl bg-gradient-to-br from-dark-secondary/80 to-dark-tertiary/80 border border-dark-tertiary/60 hover:border-accent-blue/40 transition-all group backdrop-blur-sm"
+                  whileHover={{ x: 12, boxShadow: isWhatsApp ? '0 20px 50px rgba(34, 197, 94, 0.4)' : '0 20px 50px rgba(59, 130, 246, 0.2)' }}
+                  className={`flex items-center gap-4 p-6 rounded-2xl transition-all group backdrop-blur-sm ${
+                    isWhatsApp
+                      ? 'bg-gradient-to-br from-green-600/20 to-green-700/20 border border-green-600/40 hover:border-green-500/80'
+                      : 'bg-gradient-to-br from-dark-secondary/80 to-dark-tertiary/80 border border-dark-tertiary/60 hover:border-accent-blue/40'
+                  }`}
                 >
-                  <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-accent-blue/25 to-accent-purple/25 flex items-center justify-center group-hover:from-accent-blue/40 group-hover:to-accent-purple/40 transition-all group-hover:shadow-lg">
-                    <Icon className="w-7 h-7 text-accent-blue" />
+                  <div className={`w-14 h-14 rounded-xl flex items-center justify-center transition-all group-hover:shadow-lg ${
+                    isWhatsApp
+                      ? 'bg-gradient-to-br from-green-500/30 to-green-600/30 group-hover:from-green-500/50 group-hover:to-green-600/50'
+                      : 'bg-gradient-to-br from-accent-blue/25 to-accent-purple/25 group-hover:from-accent-blue/40 group-hover:to-accent-purple/40'
+                  }`}>
+                    <Icon className={`w-7 h-7 ${isWhatsApp ? 'text-green-400' : 'text-accent-blue'}`} />
                   </div>
                   <div>
                     <p className="text-xs text-gray-500 font-semibold uppercase tracking-wide">{social.label}</p>
@@ -144,6 +160,8 @@ export default function Contact() {
             viewport={{ once: true }}
             className="p-8 rounded-2xl bg-gradient-to-br from-dark-secondary/80 to-dark-tertiary/80 border border-dark-tertiary/60 hover:border-accent-blue/30 transition-all backdrop-blur-sm shadow-xl"
           >
+            <h3 className="text-2xl font-bold text-white mb-2">Send a Message</h3>
+            <p className="text-gray-400 mb-6">I'll respond within 24 hours.</p>
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* Name */}
               <div>

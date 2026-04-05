@@ -8,32 +8,32 @@ export default function Skills() {
     {
       category: 'Machine Learning & AI',
       skills: ['Machine Learning', 'Deep Learning', 'Neural Networks', 'Transfer Learning', 'Model Optimization'],
-      icon: '🤖',
+      icon: null,
     },
     {
       category: 'Computer Vision',
       skills: ['CNNs', 'Object Detection', 'Image Classification', 'Hand Gesture Recognition', 'Video Analysis'],
-      icon: '👁️',
+      icon: null,
     },
     {
       category: 'Tools & Frameworks',
       skills: ['PyTorch', 'TensorFlow', 'Scikit-learn', 'OpenCV', 'NumPy', 'Pandas'],
-      icon: '⚙️',
+      icon: null,
     },
     {
       category: 'Data & Analytics',
       skills: ['Data Analysis', 'EDA', 'Data Visualization', 'Statistical Analysis', 'Feature Engineering'],
-      icon: '📊',
+      icon: null,
     },
     {
       category: 'Backend & Integration',
       skills: ['Python', 'FastAPI', 'Flask', 'REST APIs', 'Model Deployment'],
-      icon: '🔧',
+      icon: null,
     },
     {
       category: 'Other Skills',
       skills: ['Problem Solving', 'Research', 'Technical Writing', 'Mentoring', 'Agile/Scrum'],
-      icon: '💡',
+      icon: null,
     },
   ];
 

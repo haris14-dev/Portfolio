@@ -43,29 +43,29 @@ export default function About() {
             {/* Left - Text */}
             <motion.div variants={item}>
               <p className="text-gray-300 text-lg leading-relaxed mb-6">
-                I'm Haris Asif, a passionate Machine Learning and Deep Learning engineer with a proven track record
-                of delivering high-impact AI solutions. My expertise lies in transforming complex business challenges
-                into data-driven, intelligent systems.
+                I'm <strong>Haris Asif</strong>, an AI engineer obsessed with building systems that actually work in the real world. 
+                My journey started with a simple question: <em>"How can AI solve business problems at scale?"</em>
               </p>
 
               <p className="text-gray-300 text-lg leading-relaxed mb-6">
-                With hands-on experience in computer vision, predictive analytics, and neural network optimization,
-                I've helped businesses reduce costs, improve efficiency, and unlock new revenue streams through AI.
+                <strong>My specialization:</strong> End-to-end machine learning pipelines, computer vision systems, 
+                and intelligent automation. Whether it's predicting customer churn, detecting anomalies, or building recommendation engines, 
+                I translate complex algorithms into production-ready solutions that drive measurable ROI.
               </p>
 
-              <p className="text-gray-300 text-lg leading-relaxed mb-8">
-                Whether it's building production-ready ML models, implementing real-time computer vision systems,
-                or architecting end-to-end AI pipelines, I'm committed to delivering solutions that drive tangible
-                business value.
+              <p className="text-gray-300 text-lg leading-relaxed mb-6">
+                <strong>What drives me:</strong> I don't just build models—I solve problems. I thrive on understanding business constraints, 
+                optimizing for real-world performance, and delivering systems that make an impact. From healthcare tech to e-commerce, 
+                I've built ML solutions that improved efficiency, reduced costs, and unlocked new opportunities.
               </p>
 
               <motion.a
                 href="#projects"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="inline-block px-6 py-3 rounded-lg bg-gradient-to-r from-accent-blue to-accent-purple text-white font-semibold hover:shadow-lg"
+                className="inline-block px-8 py-3 rounded-lg bg-gradient-to-r from-accent-blue to-accent-purple text-white font-semibold hover:shadow-lg shadow-md transition-all"
               >
-                See my work →
+                See case studies →
               </motion.a>
             </motion.div>
 
@@ -73,25 +73,34 @@ export default function About() {
             <motion.div variants={item} className="space-y-6">
               {[
                 {
-                  label: 'Specialization',
-                  value: 'ML, DL, Computer Vision',
+                  icon: '🎯',
+                  label: 'Expertise',
+                  value: 'ML, DL, Computer Vision, NLP',
                 },
                 {
+                  icon: '⚡',
                   label: 'Approach',
-                  value: 'Data-driven, Business-focused',
+                  value: 'Data-driven, Production-focused',
                 },
                 {
-                  label: 'Mission',
-                  value: 'Solving real problems with AI',
+                  icon: '💡',
+                  label: 'Problem-Solving',
+                  value: 'Real-world impact over theory',
+                },
+                {
+                  icon: '🚀',
+                  label: 'Delivery',
+                  value: 'Scalable, Tested, Deployed',
                 },
               ].map((stat, idx) => (
                 <motion.div
                   key={idx}
                   whileHover={{ x: 10 }}
-                  className="p-4 rounded-lg bg-dark-tertiary/50 border border-accent-blue/20 hover:border-accent-blue/50 transition-colors"
+                  className="p-5 rounded-lg bg-gradient-to-br from-dark-secondary/50 to-dark-tertiary/50 border border-accent-blue/20 hover:border-accent-blue/50 transition-all"
                 >
-                  <p className="text-gray-400 text-sm font-semibold mb-1">{stat.label}</p>
-                  <p className="text-white text-lg">{stat.value}</p>
+                  <p className="text-2xl mb-2">{stat.icon}</p>
+                  <p className="text-gray-400 text-sm font-semibold mb-1 uppercase tracking-wide">{stat.label}</p>
+                  <p className="text-white text-base font-medium">{stat.value}</p>
                 </motion.div>
               ))}
             </motion.div>

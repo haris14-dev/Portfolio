@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ExternalLink, Github, ChevronLeft, ChevronRight } from 'lucide-react';
 import VideoPlayer from './VideoPlayer';
@@ -28,6 +28,16 @@ export default function ProjectDetailsModal({
   onClose,
 }) {
   const [selectedImageIndex, setSelectedImageIndex] = useState(null);
+
+  // Handle previous image with useCallback to prevent dependency issues
+  const handlePrevImage = useCallback(() => {
+    setSelectedImageIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
+  }, [images.length]);
+
+  // Handle next image with useCallback to prevent dependency issues
+  const handleNextImage = useCallback(() => {
+    setSelectedImageIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
+  }, [images.length]);
 
   // PERFORMANCE: Prevent body scroll when modal is open
   useEffect(() => {
@@ -60,14 +70,6 @@ export default function ProjectDetailsModal({
       window.removeEventListener('keydown', handleKeyDown);
     };
   }, [selectedImageIndex, onClose, handleNextImage, handlePrevImage]);
-
-  const handlePrevImage = () => {
-    setSelectedImageIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
-  };
-
-  const handleNextImage = () => {
-    setSelectedImageIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
-  };
 
   // Close lightbox when pressing escape
   useEffect(() => {

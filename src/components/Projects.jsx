@@ -66,7 +66,7 @@ export default function Projects() {
         '/projects/gesture-detection/ss2.png',
       ],
       tech: ['CNN', 'OpenCV', 'PyTorch', 'Computer Vision'],
-      github: 'https://github.com/haris14-dev',
+      github: 'https://github.com/haris14-dev/Hand_Gesture-Detection',
       demo: null,
     },
     {

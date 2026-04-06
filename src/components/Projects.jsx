@@ -58,7 +58,7 @@ export default function Projects() {
     {
       id: 3,
       title: 'Hand Gesture Detection',
-      description: 'Developed a real-time computer vision system detecting 10+ hand gestures with 95% accuracy—enabling touchless interaction, reducing latency to <100ms, and creating intuitive human-computer interfaces for accessibility and healthcare applications.',
+      description: 'Developed a real-time computer vision system detecting 3 hand gestures with 95% accuracy—enabling touchless interaction, reducing latency to <100ms, and creating intuitive human-computer interfaces for accessibility and healthcare applications.',
       video: '/projects/gesture-detection/demo.mp4',
       thumbnail: '/projects/gesture-detection/ss1.png',
       images: [
@@ -72,7 +72,7 @@ export default function Projects() {
     {
       id: 4,
       title: 'Customer Churn Predictor',
-      description: 'Built predictive model identifying churn-at-risk customers with 89% accuracy—enabling proactive retention campaigns that recovered $2M+ annually, while reducing false positives to improve marketing efficiency by 35%.',
+      description: 'A machine learning-powered system designed to identify customers who are likely to stop using a service. This project analyzes user behavior patterns, engagement metrics, and historical data to predict churn with high accuracy. By leveraging classification algorithms and feature engineering techniques, the model provides actionable insights that can help businesses improve customer retention strategies and reduce revenue loss. The solution includes data preprocessing, model training, evaluation, and a user-friendly interface for real-time predictions.',
       video: '/projects/churn-prediction/Demo.mp4',
       thumbnail: '/projects/churn-prediction/ss1.png',
       images: [
@@ -86,7 +86,7 @@ export default function Projects() {
     {
       id: 5,
       title: 'Tremor Detection System',
-      description: 'Created healthcare AI system detecting and classifying tremor patterns with 97% diagnostic accuracy—deployed in medical facilities, improving patient assessment speed by 80%, and enabling early intervention in neurological conditions.',
+      description: 'An intelligent detection system that uses sensor data to identify and analyze tremor patterns in real time. Built using machine learning techniques, this project processes motion signals (e.g., IMU/accelerometer data) to distinguish between normal and abnormal movements. The system focuses on accuracy and responsiveness, making it suitable for healthcare monitoring and assistive technology applications. It includes signal processing, feature extraction, and model training to deliver reliable tremor classification.',
       video: '/projects/tremor-detection/demo.mp4',
       thumbnail: '/projects/tremor-detection/ss1.png',
       images: [

@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Github, Linkedin, Mail, Heart, ArrowUp } from 'lucide-react';
+import { Github, Linkedin, Mail, ArrowUp } from 'lucide-react';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -117,10 +117,9 @@ export default function Footer() {
             whileInView={{ opacity: 1 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
-            className="text-gray-500 text-sm flex items-center gap-1"
+            className="text-gray-500 text-sm"
           >
-            © {currentYear} Haris Asif. Made with{' '}
-            <Heart size={16} className="text-red-500 fill-red-500" /> using React & Tailwind CSS.
+            © {currentYear} Haris Asif.
           </motion.p>
 
           <motion.button
